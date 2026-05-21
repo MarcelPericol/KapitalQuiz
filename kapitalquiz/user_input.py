@@ -1,26 +1,33 @@
-player = input("Please enter your name: ")
-print(f"Hello {player}!")
-game_type = input("Please chose your game, do you want to guess countries, or capitals? \n")
 
-valid_games = ["capital", "capitals", "countries", "country"]
+def get_player_name():
+    player = input("Please enter your name: ").strip()
+    print(f"Hello {player}!")
+    return player
+
+
+def get_game_mode():
+    valid_modes = {
+        "capital": "capital",
+        "capitals": "capital",
+        "country": "country",
+        "countries": "country"
+    }
+
+    while True:
+        game_type = input(
+            "Please choose your game mode:\n"
+            "Do want to guess capitals?\n"
+            "Do you want to guess countries?\n"
+            "> "
+        ).lower().strip()
+
+        if game_type in valid_modes:
+            print("Let the games begin!")
+            return valid_modes[game_type]
+
+        print("Invalid choice! Please type 'capital' or 'country'.")
+
 score = 0
-country_capitals = {"France": "Paris", "England": "London", "Germany": "Berlin", "Italy": "Rome", "Spain": "Madrid"}
 
-while game_type.lower() not in valid_games:
-    print(game_type.lower())
-    print("The category you chose is not valid! Please chose countries or capitals!")
-    game_type = input()
-else:
-    print("Let the games begin!")
-
-countries = []
-capitals = []
-items = country_capitals.items()
-for i in items:
-    countries.append(i[0])
-    capitals.append(i[1])
-
-# print(countries)
-# print(capitals)
 
 
