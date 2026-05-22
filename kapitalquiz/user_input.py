@@ -7,27 +7,24 @@ def get_player_name():
 
 def get_game_mode():
     valid_modes = {
-        "capital": "capital",
-        "capitals": "capital",
-        "country": "country",
-        "countries": "country"
+        "1": "capital",
+        "2": "country"
     }
 
     while True:
         game_type = input(
             "Please choose your game mode:\n"
-            "Do want to guess capitals?\n"
-            "Do you want to guess countries?\n"
+            "1. Guess the CAPITAL based on the country\n"
+            "2. Guess the COUNTRY based on the capital\n"
             "> "
-        ).lower().strip()
+        ).strip()
 
         if game_type in valid_modes:
             print("Let the games begin!")
             return valid_modes[game_type]
 
-        print("Invalid choice! Please type 'capital' or 'country'.")
+        print("Invalid choice! Please type 1 for 'capital' or 2 for 'country'.")
 
-score = 0
 
 
 
