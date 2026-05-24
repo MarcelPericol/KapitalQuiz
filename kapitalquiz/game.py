@@ -1,6 +1,7 @@
 from user_input import get_player_name, get_game_mode
 from score_table import ScoreTable
 from questions import QuestionRepo
+from timed_input import timed_input
 
 
 def play_mode(repo, mode, score_table):
@@ -14,30 +15,34 @@ def play_mode(repo, mode, score_table):
         for idx, opt in enumerate(q.options, 1):
             print(f"{idx}. {opt}")
 
-        answer = input("Your answer (1-4): ")
+        answer, timed_out = timed_input("Your answer (1-4): ", timeout=10)
 
-        # Invalid input counts as wrong
-        if not answer.isdigit() or int(answer) not in range(1, 5):
+        if timed_out:
+            print("\nTime's up! That counts as a wrong answer.\n")
             score_table.wrong_answers()
-            print(f"Wrong answer! You can only afford {2 - score_table.wrong} more mistake(s)!\n")
         else:
-            chosen = q.options[int(answer) - 1]
-            if q.is_correct(chosen):
-                print("Correct!\n")
-                score_table.correct_answers()
-            else:
-                print(f"Wrong! The correct answer was {q.correct_answer}\n")
+            if not answer.isdigit() or int(answer) not in range(1, 5):
+                print("Invalid input! Counted as wrong.\n")
                 score_table.wrong_answers()
+            else:
+                chosen = q.options[int(answer) - 1]
+                if q.is_correct(chosen):
+                    print("Correct!\n")
+                    score_table.correct_answers()
+                else:
+                    print(f"Wrong! The correct answer was {q.correct_answer}\n")
+                    score_table.wrong_answers()
 
-        # Stop mode AND game if too many mistakes
-        if score_table.wrong > 1:
-            print("Too many wrong answers. Game over.\n")
-            return False   # <-- tell main() to stop the game
+            if score_table.wrong > 1:
+                print("Too many wrong answers. Game over.\n")
+                return False
 
-        print(f"Current score: {score_table.correct} correct, {score_table.wrong} wrong\n")
+            print(
+                f"Current score: {score_table.correct} correct, {score_table.wrong} wrong\n")
 
     print(f"--- Finished {mode.upper()} mode ---\n")
-    return True  # <-- mode completed normally
+    return True
+
 
 
 def main():

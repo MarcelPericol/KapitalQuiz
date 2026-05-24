@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import random
 from pathlib import Path
 
@@ -24,7 +25,7 @@ class QuestionRepo:
     def __init__(self, filepath = None):
         if filepath is None:
             base = Path(__file__).resolve().parents[1]
-            filepath = base / "Config" / "questions.json"
+            filepath = base / "Database" / "questions.json"
 
         self.filepath = filepath
         self.data = self._load_data()
